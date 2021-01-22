@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`header 样式 1`] = `
+exports[`header组件 样式测试是否有被修改 1`] = `
 <div
   className="header"
 >
