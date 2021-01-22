@@ -25,10 +25,15 @@ class Header extends React.Component {
         const {inputValue} = this.state;
         const {handleInputChange,handleInputKeyUp} = this;
         return (
-                <div>
-                    <input type="text" data-test="input" value={inputValue} 
-                    onKeyUp={handleInputKeyUp}
-                    onChange={handleInputChange}/>
+                <div className="header">
+                    <div className="header-content">
+                        <div>
+                            TodoList
+                        </div>
+                        <input type="text" data-test="input" placeholder="Add ToDo" value={inputValue} 
+                        onKeyUp={handleInputKeyUp}
+                        onChange={handleInputChange}/>
+                    </div>
                 </div>
             );
     }
