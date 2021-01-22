@@ -11,25 +11,34 @@ class UndoList extends Component {
     render() {
         const list = this.props.list;
         const {deleteItem} = this;
+        const {changeState,handleBlur,valueChange} = this.props;
         return (
-            <div>
-                <div data-test="count">{list.length}</div>
+            <div className="undolist">
+                <div className="undo-list-title">
+                    正在进行中
+                    <div data-test="count" className="count">{list.length}</div>
+                </div>
+             
                 <ul>
                     {
                         list.map((item,i)=>{
                             return (<div
+                                        className="listItem"
                                         data-test="listItem"
-                                        key={`${item}-${i}`}
+                                        onClick={()=>changeState(i)}
+                                        key={i}
                                     >
                                         {
-                                            item
+                                            item.state==='div'?(<div>{item.value}</div>):
+                                            (
+                                                <input onChange={(e)=>{valueChange(i,e.target.value)}} onBlur={()=>handleBlur(i)} data-test="input" type="text" value={item.value}/>
+                                            )
                                         }
-                                        <span 
+                                        <div 
                                           onClick={()=>deleteItem(i)}
                                           data-test="delete-item"
-                                        >
-                                            -
-                                        </span>
+                                          className="delete-item"
+                                        >-</div>
                                     </div>)
                                 })
                     }
