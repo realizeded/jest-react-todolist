@@ -11,6 +11,7 @@ class UndoList extends Component {
     render() {
         const list = this.props.list;
         const {deleteItem} = this;
+        const {changeState,handleBlur,valueChange} = this.props;
         return (
             <div className="undolist">
                 <div className="undo-list-title">
@@ -24,10 +25,14 @@ class UndoList extends Component {
                             return (<div
                                         className="listItem"
                                         data-test="listItem"
-                                        key={`${item}-${i}`}
+                                        onClick={()=>changeState(i)}
+                                        key={i}
                                     >
                                         {
-                                            item
+                                            item.state==='div'?(<div>{item.value}</div>):
+                                            (
+                                                <input onChange={(e)=>{valueChange(i,e.target.value)}} onBlur={()=>handleBlur(i)} data-test="input" type="text" value={item.value}/>
+                                            )
                                         }
                                         <div 
                                           onClick={()=>deleteItem(i)}
