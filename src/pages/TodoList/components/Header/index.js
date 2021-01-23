@@ -1,29 +1,21 @@
 import React from 'react';
+import {actionsCreator} from '../../store';
+import {connect} from 'react-redux';
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            inputValue:''
-        }
-        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleInputKeyUp = this.handleInputKeyUp.bind(this);
     }
     handleInputKeyUp(e) {
-        if(e.keyCode===13&&this.state.inputValue) {
-            this.props.addListItem(this.state.inputValue);
-            this.setState({inputValue:''});
+        if(e.keyCode===13&&this.props.inputValue) {
+            this.props.addListItem(this.props.inputValue);
+            this.props.handleInputChange('');
         }
     }
-    handleInputChange(e) {
-        this.setState(()=>{
-            return {
-                inputValue:e.target.value
-            }
-        })
-    }
+
     render() {
-        const {inputValue} = this.state;
-        const {handleInputChange,handleInputKeyUp} = this;
+        const {inputValue,handleInputChange} = this.props;
+        const {handleInputKeyUp} = this;
         return (
                 <div className="header">
                     <div className="header-content">
@@ -32,10 +24,22 @@ class Header extends React.Component {
                         </div>
                         <input type="text" data-test="input" placeholder="Add ToDo" value={inputValue} 
                         onKeyUp={handleInputKeyUp}
-                        onChange={handleInputChange}/>
+                        onChange={e=>handleInputChange(e.target.value)}/>
                     </div>
                 </div>
             );
     }
 }
-export default Header;
+const mapStateToProps = function(state) {
+    return {
+        inputValue:state.todo.inputValue
+    }
+};
+const mapDispatchToProps = function(dispatch) {
+    return {
+        handleInputChange(value) {
+            dispatch(actionsCreator.CHANGE_INPUT_VALUE(value));
+        }
+    }
+};
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
